@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // JWTProtected func for specify route group with JWT authentication.
@@ -16,12 +17,12 @@ import (
 func JWTProtected() func(*fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
 		authHeader := c.Get("Authorization")
-
-		if !strings.Contains(authHeader, "Bearer ") {
+		if !strings.HasPrefix(authHeader, "Bearer ") {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"message": "Missing bearer token",
 			})
 		}
+
 		// Extract the token from the request header or query parameter
 		token := strings.TrimPrefix(authHeader, "Bearer ")
 		if token == "" {
@@ -30,27 +31,56 @@ func JWTProtected() func(*fiber.Ctx) error {
 
 		// Decrypt the token
 		decryptedToken, err := helper.Decrypt(token)
-
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"message": "Unauthorized",
 			})
 		}
 
-		// Now, you can parse and validate the decrypted token using JWT library
-		claims := jwt.MapClaims{}
-		_, err = jwt.ParseWithClaims(string(decryptedToken), claims, func(token *jwt.Token) (interface{}, error) {
+		// Parse and validate the decrypted token using JWT library
+		parsedToken, err := jwt.Parse(string(decryptedToken), func(token *jwt.Token) (interface{}, error) {
 			return []byte(config.AppConfig().JWTSecretKey), nil
 		})
+		if err != nil || !parsedToken.Valid {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Unauthorized",
+			})
+		}
 
+		claims, ok := parsedToken.Claims.(jwt.MapClaims)
+		if !ok {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Unauthorized",
+			})
+		}
+
+		// Extract user claims
+		userClaims := claims["user"].(map[string]interface{})
+
+		// Convert credit balance to int32
+		creditBalanceFloat, _ := userClaims["credit_balance"].(float64)
+		userIDString := userClaims["id"].(string)
+		userId, err := primitive.ObjectIDFromHex(userIDString)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"message": "Unauthorized",
 			})
 		}
 
-		// save user from token to locals
-		c.Locals("user", claims)
+		// Create User object
+		user := models.User{
+			ID:            userId,
+			Email:         userClaims["email"].(string),
+			Username:      userClaims["username"].(string),
+			Password:      userClaims["password"].(string),
+			Photo:         userClaims["photo"].(string),
+			FirstName:     userClaims["first_name"].(string),
+			LastName:      userClaims["last_name"].(string),
+			CreditBalance: int32(creditBalanceFloat),
+		}
+
+		// Save user to locals
+		c.Locals("user", user)
 
 		// Token is valid, proceed with the next middleware or route handler
 		return c.Next()
