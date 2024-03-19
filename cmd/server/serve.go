@@ -5,6 +5,7 @@ import (
 	"fiber-boilerplate/pkg/config"
 	"fiber-boilerplate/pkg/logger"
 	"fiber-boilerplate/pkg/middleware"
+	"fiber-boilerplate/pkg/route"
 	"fmt"
 	"os"
 	"os/signal"
@@ -26,6 +27,12 @@ func Serve() {
 	app := fiber.New(config.FiberConfig())
 
 	middleware.FiberMiddleware(app)
+
+	db := database.GetDB()
+
+	group := app.Group("/api/v1")
+	route.PrivateRoute(group, db)
+	route.PublicRoute(group, db)
 
 	// signal channel to capture system calls
 	sigCh := make(chan os.Signal, 1)

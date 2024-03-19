@@ -11,7 +11,7 @@ import (
 )
 
 type DB struct {
-	*mongo.Client
+	*mongo.Database
 }
 
 var db = &DB{}
@@ -29,12 +29,12 @@ func (db *DB) connect(config *config.DB) error {
 		return err
 	}
 
-	db.Client = client
-
 	// Send a ping to confirm a successful connection
 	if err := client.Database("admin").RunCommand(context.TODO(), bson.D{{"ping", 1}, {"$db", "admin"}}).Err(); err != nil {
 		return err
 	}
+
+	db.Database = client.Database(config.Name)
 
 	fmt.Println("Successfully connected to MongoDB!")
 

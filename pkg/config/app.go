@@ -9,9 +9,10 @@ import (
 )
 
 type App struct {
-	Environtment string
-	Port         int
-	ReadTimeout  time.Duration
+	Environtment  string
+	Port          int
+	ReadTimeout   time.Duration
+	EncryptionKey string
 
 	// JWT Conf
 	JWTSecretKey                 string
@@ -25,14 +26,14 @@ func AppConfig() *App {
 }
 
 func LoadAppConfig() {
-
 	app.Environtment = os.Getenv("APP_ENV")
+	app.EncryptionKey = os.Getenv("APP_ENCRYPTION_SECRET")
 	app.Port, _ = strconv.Atoi(os.Getenv("APP_PORT"))
 	timeOut, _ := strconv.Atoi(os.Getenv("APP_READ_TIMEOUT"))
 	app.ReadTimeout = time.Duration(timeOut) * time.Second
 
 	app.JWTSecretKey = os.Getenv("JWT_SECRET_KEY")
-	app.JWTSecreteExpireMinutesCount, _ = strconv.Atoi(os.Getenv("JWT_SECRET_EXPIRE_MINUTES_COUNT"))
+	app.JWTSecreteExpireMinutesCount, _ = strconv.Atoi(os.Getenv("JWT_EXPIRE_MINUTES_COUNT"))
 
 }
 
