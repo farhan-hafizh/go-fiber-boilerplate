@@ -21,11 +21,24 @@
 Is a golang based boilerplate application with Fiber Go web framework.
 For any fiber go application, just clone the repo & rename the application name.
 
-[Fiber](https://gofiber.io/) is an Express.js inspired web framework build on top of Fasthttp, the fastest HTTP engine for Go. Designed to ease things up for **fast** development with **zero memory allocation** and **performance** in mind. 
+[Fiber](https://gofiber.io/) is a Go web framework built on top of Fasthttp, the fastest HTTP engine for Go. Designed to ease things up for **fast** development with **zero memory allocation** and **performance** in mind. 
 
-This boilerplate application uses [MongoDB](https://www.mongodb.com/) as database service. And for authentication this boilerplate uses [JWT](https://jwt.io/) where it has Access Token and Refresh Token schema.
+This boilerplate uses [MongoDB](https://www.mongodb.com/) as database service. And for authentication this boilerplate uses [JWT](https://jwt.io/) where it has Access Token and Refresh Token schema.
 
-For better coding experience, this boilerplate using [Air](https://github.com/cosmtrek/air) to handle hot reloading. If you already installed [Air](https://github.com/cosmtrek/air), you can simply run it by command
+For better coding experience, this boilerplate using [Air](https://github.com/cosmtrek/air) to handle hot reloading. If you already installed [Air](https://github.com/cosmtrek/air), you can simply run it by command,
 ```bash
   air
 ```
+If not you can run, ```go run main.go```, but i don't recomend it because it sucks to re-run everytime you just need to print something 😜.
+
+## 🚧 WORK IN PROGRESS
+
+- I will update(try) this regularly to add functionality and new features.
+
+**Used libraries:**
+
+- [jwt-go](https://github.com/dgrijalva/jwt-go) v3.2.0+incompatible
+- [godotenv](https://github.com/joho/godotenv) v1.5.1
+- [uuid](https://github.com/google/uuid) v1.6.0
+- [Go Mongo Driver](https://go.mongodb.org/mongo-driver) v1.14.0
+- [Go Playground Validator](https://github.com/go-playground/validator) v9.31.0+incompatible
