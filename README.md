@@ -42,3 +42,4 @@ If not you can run, ```go run main.go```, but i don't recomend it because it suc
 - [uuid](https://github.com/google/uuid) v1.6.0
 - [Go Mongo Driver](https://go.mongodb.org/mongo-driver) v1.14.0
 - [Go Playground Validator](https://github.com/go-playground/validator) v9.31.0+incompatible
+- [goccy/go-json](https://github.com/goccy/go-json) 
