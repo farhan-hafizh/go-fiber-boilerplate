@@ -15,4 +15,5 @@ func PublicRoute(router fiber.Router, db *database.DB) {
 
 	router.Post("/register", userController.RegisterUser)
 	router.Post("/login", userController.Login)
+	router.Get("/refresh-token", userController.RefreshToken)
 }

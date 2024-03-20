@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fiber-boilerplate/app/services/user"
+	"fiber-boilerplate/pkg/helper"
 	"fiber-boilerplate/pkg/middleware"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,6 +11,7 @@ import (
 type UserController interface {
 	RegisterUser(c *fiber.Ctx) error
 	Login(c *fiber.Ctx) error
+	RefreshToken(c *fiber.Ctx) error
 }
 
 type userController struct {
@@ -68,18 +70,53 @@ func (ctr *userController) Login(c *fiber.Ctx) error {
 			"msg": err.Error(),
 		})
 	}
+	err = middleware.SetCookies(c, loggedUser)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"msg": err.Error(),
+		})
+	}
+	token, _ := middleware.GenerateNewAccessToken(loggedUser)
+	response := map[string]interface{}{
+		"user":  userDto,
+		"token": token,
+	}
+	return middleware.SendResponse(c, fiber.StatusOK, response)
 
-	token, err := middleware.GenerateNewAccessToken(loggedUser)
+}
+
+func (ctr *userController) RefreshToken(c *fiber.Ctx) error {
+	refreshToken, err := middleware.GetTokenCookie(c)
+	if err != nil {
+		// Return status 400 and error message.
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"msg": "Invalid refresh token",
+		})
+	}
+
+	decryptedToken, err := helper.Decrypt(refreshToken)
 
 	if err != nil {
 		// Return status 400 and error message.
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": err.Error(),
+			"msg": "Invalid refresh token",
 		})
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"user":  userDto,
+	// Parse and validate the decrypted token
+	user, err := helper.ValidateToken(c, decryptedToken, "refresh_token")
+	if err != nil {
+		// Return status 400 and error message.
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"msg": "Invalid refresh token",
+		})
+	}
+
+	token, _ := middleware.GenerateNewAccessToken(*user)
+
+	response := map[string]interface{}{
 		"token": token,
-	})
+	}
+
+	return middleware.SendResponse(c, fiber.StatusOK, response)
 }
