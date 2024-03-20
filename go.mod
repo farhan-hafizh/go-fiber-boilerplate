@@ -21,6 +21,7 @@ require (
 	github.com/go-playground/validator v9.31.0+incompatible // indirect
 	github.com/go-playground/validator/v10 v10.19.0 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
+	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gofiber/contrib/jwt v1.0.8 // indirect
 	github.com/gofiber/fiber/v2 v2.52.2 // indirect
 	github.com/gohugoio/hugo v0.124.0 // indirect
