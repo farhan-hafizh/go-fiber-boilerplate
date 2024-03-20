@@ -8,13 +8,13 @@
     <img src="https://img.shields.io/github/v/release/gofiber/fiber?color=00ADD8&label=%F0%9F%9A%80%20">
   </a>
   <a href="https://jwt.io/">
-    <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens">
+    <img src="https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens">
   </a>
   <a href="https://www.mongodb.com">
-    <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white">
+    <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat&logo=mongodb&logoColor=white">
   </a>
   <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat">
   </a>
 </p>
 
