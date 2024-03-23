@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"errors"
 	"fiber-boilerplate/app/models"
 	"fiber-boilerplate/database"
 
@@ -33,6 +34,10 @@ func (repo *repository) FindByEmailOrUsername(query string) (user models.User, e
 		},
 	}).Decode(&user)
 	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return models.User{}, nil // Return empty user and nil error
+		}
+
 		return user, err
 	}
 
@@ -57,6 +62,9 @@ func (repo *repository) Save(user models.User) (string, error) {
 func (repo *repository) FindByID(id string) (models.User, error) {
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return models.User{}, nil // Return empty user and nil error
+		}
 		return models.User{}, err
 	}
 
