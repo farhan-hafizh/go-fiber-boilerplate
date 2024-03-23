@@ -26,19 +26,13 @@ func (ctr *userController) RegisterUser(c *fiber.Ctx) error {
 	input := &user.RegisterInput{}
 
 	if err := c.BodyParser(input); err != nil {
-		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": err.Error(),
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, err.Error())
 	}
 
 	newUser, err := ctr.userService.RegisterUser(*input)
 
 	if err != nil {
-		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": err.Error(),
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, err.Error())
 	}
 
 	return c.Status(fiber.StatusOK).JSON(newUser)
@@ -49,9 +43,7 @@ func (ctr *userController) Login(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(input); err != nil {
 		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": err.Error(),
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, err.Error())
 	}
 
 	loggedUser, err := ctr.userService.Login(*input)
@@ -65,17 +57,16 @@ func (ctr *userController) Login(c *fiber.Ctx) error {
 	userDto.CreditBalance = loggedUser.CreditBalance
 
 	if err != nil {
-		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": err.Error(),
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, err.Error())
+
 	}
+
 	err = middleware.SetCookies(c, loggedUser)
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"msg": err.Error(),
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, err.Error())
+
 	}
+
 	token, _ := middleware.GenerateNewAccessToken(loggedUser)
 	response := map[string]interface{}{
 		"user":  userDto,
@@ -89,27 +80,20 @@ func (ctr *userController) RefreshToken(c *fiber.Ctx) error {
 	refreshToken, err := middleware.GetTokenCookie(c)
 	if err != nil {
 		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": "Invalid refresh token",
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, "Invalid refresh token")
+
 	}
 
 	decryptedToken, err := helper.Decrypt(refreshToken)
 
 	if err != nil {
-		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": "Invalid refresh token",
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, "Invalid refresh token")
 	}
 
 	// Parse and validate the decrypted token
 	user, err := helper.ValidateToken(c, decryptedToken, "refresh_token")
 	if err != nil {
-		// Return status 400 and error message.
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"msg": "Invalid refresh token",
-		})
+		return middleware.SendResponse(c, fiber.StatusBadRequest, "Invalid refresh token")
 	}
 
 	token, _ := middleware.GenerateNewAccessToken(*user)

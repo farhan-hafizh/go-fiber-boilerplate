@@ -12,7 +12,7 @@ import (
 
 type Repository interface {
 	FindByEmailOrUsername(query string) (user models.User, err error)
-	Save(user models.User) (models.User, error)
+	Save(user models.User) (insertedId string, err error)
 	FindByID(id string) (models.User, error)
 }
 
@@ -39,24 +39,19 @@ func (repo *repository) FindByEmailOrUsername(query string) (user models.User, e
 	return user, nil
 }
 
-func (repo *repository) Save(user models.User) (models.User, error) {
+func (repo *repository) Save(user models.User) (string, error) {
 	if err := user.Validate(); err != nil {
-		return user, err
+		return "", err
 	}
 	result, err := repo.collection.InsertOne(context.Background(), user)
 	if err != nil {
-		return user, err
+		return "", err
 	}
 
 	// Access the inserted user using the result (assuming InsertedID method)
-	insertedID := result.InsertedID.(primitive.ObjectID).String() // Might need type assertion depending on your driver
-	insertedUser, err := repo.FindByID(insertedID)                // Assuming FindByID exists
+	insertedID := result.InsertedID.(primitive.ObjectID).Hex()
 
-	if err != nil {
-		return user, err // Might want to handle specific errors differently
-	}
-
-	return insertedUser, nil
+	return insertedID, nil
 }
 
 func (repo *repository) FindByID(id string) (models.User, error) {

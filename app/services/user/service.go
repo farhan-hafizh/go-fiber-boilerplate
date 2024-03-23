@@ -1,8 +1,10 @@
 package user
 
 import (
+	"errors"
 	"fiber-boilerplate/app/models"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,26 +22,48 @@ func CreateService(repo Repository) Service {
 }
 
 func (s *service) RegisterUser(input RegisterInput) (models.User, error) {
-	user := models.User{}
-	user.Email = input.Email
-	user.Username = input.Username
-
-	password, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	user, err := s.repo.FindByEmailOrUsername(input.Email)
 	if err != nil {
-		return user, err
+		return models.User{}, err
 	}
 
-	user.Password = string(password)
-	user.FirstName = input.FirstName
-	user.LastName = input.LastName
-	user.CreditBalance = 10 //default
-
-	newUser, err := s.repo.Save(user)
-	if err != nil {
-		return newUser, err
+	if user.ID != primitive.NilObjectID {
+		return models.User{}, errors.New("email already exists")
 	}
 
-	return newUser, nil
+	user, err = s.repo.FindByEmailOrUsername(input.Username)
+	if err != nil {
+		return models.User{}, err
+	}
+	if user.ID != primitive.NilObjectID {
+		return models.User{}, errors.New("username already exists")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	newUser := models.User{
+		Email:         input.Email,
+		Username:      input.Username,
+		Password:      string(hashedPassword),
+		FirstName:     input.FirstName,
+		LastName:      input.LastName,
+		CreditBalance: 10, //default
+	}
+
+	insertedID, err := s.repo.Save(newUser)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	insertedUser, err := s.repo.FindByID(insertedID)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	return insertedUser, nil
 }
 
 func (s *service) Login(input LoginInput) (models.User, error) {
