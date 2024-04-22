@@ -2,8 +2,8 @@ package book
 
 import (
 	"context"
-	"fiber-boilerplate/app/models"
-	"fiber-boilerplate/database"
+	"go-fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/database"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )

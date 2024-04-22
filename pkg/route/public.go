@@ -1,9 +1,9 @@
 package route
 
 import (
-	"fiber-boilerplate/app/controller"
-	"fiber-boilerplate/app/services/user"
-	"fiber-boilerplate/database"
+	"go-fiber-boilerplate/app/controller"
+	"go-fiber-boilerplate/app/services/user"
+	"go-fiber-boilerplate/database"
 
 	"github.com/gofiber/fiber/v2"
 )

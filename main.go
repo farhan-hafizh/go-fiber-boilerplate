@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fiber-boilerplate/cmd/server"
-	"fiber-boilerplate/pkg/config"
 	"flag"
+	"go-fiber-boilerplate/cmd/server"
+	"go-fiber-boilerplate/pkg/config"
 )
 
 var (

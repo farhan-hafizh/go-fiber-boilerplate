@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"fiber-boilerplate/app/models"
-	"fiber-boilerplate/pkg/config"
+	"go-fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/pkg/config"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"

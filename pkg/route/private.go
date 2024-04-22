@@ -1,10 +1,10 @@
 package route
 
 import (
-	"fiber-boilerplate/app/controller"
-	"fiber-boilerplate/app/services/book"
-	"fiber-boilerplate/database"
-	"fiber-boilerplate/pkg/middleware"
+	"go-fiber-boilerplate/app/controller"
+	"go-fiber-boilerplate/app/services/book"
+	"go-fiber-boilerplate/database"
+	"go-fiber-boilerplate/pkg/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )

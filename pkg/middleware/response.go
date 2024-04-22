@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/app/models"
 
 	"github.com/gofiber/fiber/v2"
 )

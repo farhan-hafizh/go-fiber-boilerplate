@@ -1,7 +1,7 @@
 package book
 
 import (
-	"fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/app/models"
 )
 
 type Service interface {

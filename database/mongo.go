@@ -2,8 +2,8 @@ package database
 
 import (
 	"context"
-	"fiber-boilerplate/pkg/config"
 	"fmt"
+	"go-fiber-boilerplate/pkg/config"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

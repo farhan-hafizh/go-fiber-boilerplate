@@ -1,12 +1,12 @@
 package server
 
 import (
-	"fiber-boilerplate/database"
-	"fiber-boilerplate/pkg/config"
-	"fiber-boilerplate/pkg/logger"
-	"fiber-boilerplate/pkg/middleware"
-	"fiber-boilerplate/pkg/route"
 	"fmt"
+	"go-fiber-boilerplate/database"
+	"go-fiber-boilerplate/pkg/config"
+	"go-fiber-boilerplate/pkg/logger"
+	"go-fiber-boilerplate/pkg/middleware"
+	"go-fiber-boilerplate/pkg/route"
 	"os"
 	"os/signal"
 	"syscall"

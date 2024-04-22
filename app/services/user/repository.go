@@ -3,8 +3,8 @@ package user
 import (
 	"context"
 	"errors"
-	"fiber-boilerplate/app/models"
-	"fiber-boilerplate/database"
+	"go-fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/database"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"

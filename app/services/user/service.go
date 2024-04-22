@@ -2,7 +2,7 @@ package user
 
 import (
 	"errors"
-	"fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/app/models"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"

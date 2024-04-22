@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"fiber-boilerplate/app/models"
-	"fiber-boilerplate/app/services/book"
+	"go-fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/app/services/book"
 
 	"github.com/gofiber/fiber/v2"
 )

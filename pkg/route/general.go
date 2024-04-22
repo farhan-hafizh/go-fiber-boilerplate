@@ -1,7 +1,7 @@
 package route
 
 import (
-	"fiber-boilerplate/database"
+	"go-fiber-boilerplate/database"
 
 	"github.com/gofiber/fiber/v2"
 )

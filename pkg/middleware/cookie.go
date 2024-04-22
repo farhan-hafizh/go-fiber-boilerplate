@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"errors"
-	"fiber-boilerplate/app/models"
-	"fiber-boilerplate/pkg/config"
+	"go-fiber-boilerplate/app/models"
+	"go-fiber-boilerplate/pkg/config"
 	"time"
 
 	"github.com/gofiber/fiber/v2"

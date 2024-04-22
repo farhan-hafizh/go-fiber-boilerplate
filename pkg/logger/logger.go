@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"fiber-boilerplate/pkg/config"
+	"go-fiber-boilerplate/pkg/config"
 	"os"
 
 	"github.com/sirupsen/logrus"

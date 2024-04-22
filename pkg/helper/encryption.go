@@ -6,7 +6,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"fiber-boilerplate/pkg/config"
+	"go-fiber-boilerplate/pkg/config"
 	"io"
 )
 

@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"fiber-boilerplate/app/services/user"
-	"fiber-boilerplate/pkg/helper"
-	"fiber-boilerplate/pkg/middleware"
+	"go-fiber-boilerplate/app/services/user"
+	"go-fiber-boilerplate/pkg/helper"
+	"go-fiber-boilerplate/pkg/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
