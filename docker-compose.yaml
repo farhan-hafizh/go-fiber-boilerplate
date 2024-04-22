@@ -24,6 +24,7 @@ services:
     env_file: .env  # Optional, if you still need environment variables from .env
     environment:  # Define MODE environment variable here
       MODE: production
+      DB_HOST: mongodb
     depends_on:
       - db
     ports:

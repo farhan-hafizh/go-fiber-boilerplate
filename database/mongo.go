@@ -20,14 +20,13 @@ var db = &DB{}
 func (db *DB) connect(config *config.DB) error {
 	// Use the SetServerAPIOptions() method to set the version of the Stable API on the client
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	dbURI := fmt.Sprintf("%s://%s:%s@%s/?retryWrites=true&w=majority&appName=%s", config.Prefix, config.Username, config.Password, config.Host, config.Name)
+	dbURI := fmt.Sprintf("%s://%s:%s@%s:%s/?retryWrites=true&w=majority&appName=%s", config.Prefix, config.Username, config.Password, config.Host, config.Port, config.Name)
 
 	opts := options.Client().ApplyURI(dbURI).SetServerAPIOptions(serverAPI)
 
 	client, err := mongo.Connect(context.TODO(), opts)
 
 	if err != nil {
-		fmt.Println(dbURI)
 		return err
 	}
 

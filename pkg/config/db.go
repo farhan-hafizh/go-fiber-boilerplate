@@ -8,6 +8,7 @@ import (
 type DB struct {
 	Prefix   string
 	Host     string
+	Port     string
 	Name     string
 	Username string
 	Password string
@@ -24,6 +25,7 @@ func DBCfg() *DB {
 func LoadDBConfig() {
 	db.Prefix = os.Getenv("DB_PREFIX")
 	db.Host = os.Getenv("DB_HOST")
+	db.Port = os.Getenv("DB_PORT")
 	db.Username = os.Getenv("DB_USERNAME")
 	db.Password = os.Getenv("DB_PASSWORD")
 	db.Name = os.Getenv("DB_NAME")
