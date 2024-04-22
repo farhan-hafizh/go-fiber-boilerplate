@@ -29,7 +29,14 @@ For better coding experience, this boilerplate using [Air](https://github.com/co
 ```bash
   air
 ```
+
 If not you can run, ```go run main.go```, but i don't recomend it because it sucks to re-run everytime you just need to print something 😜.
+
+# For production use
+It is recommended to use docker compose. Just simply run:
+```bash
+  docker compose up
+```
 
 ## 🚧 WORK IN PROGRESS
 

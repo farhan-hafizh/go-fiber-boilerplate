@@ -30,6 +30,9 @@ func Serve() {
 
 	db := database.GetDB()
 
+	route.NotFoundRoute(app)
+	route.GeneralRoute(app)
+
 	group := app.Group("/api/v1")
 	route.PrivateRoute(group, db)
 	route.PublicRoute(group, db)

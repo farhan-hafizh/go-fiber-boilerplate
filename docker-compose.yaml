@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  db:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: morphioapp
+      MONGO_INITDB_ROOT_PASSWORD: 3I9BVyQaOktDt91a
+    healthcheck:
+      test: ["CMD", "mongo", "-u", "root", "-p", "3I9BVyQaOktDt91a", "--quiet", "admin", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  app:
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    container_name: go-boilerplate
+    env_file: .env  # Optional, if you still need environment variables from .env
+    environment:  # Define MODE environment variable here
+      MODE: production
+    depends_on:
+      - db
+    ports:
+      - 8080:8080 # Replace 8080 with your application port
+
